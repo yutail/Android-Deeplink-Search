@@ -1,4 +1,4 @@
-package yutailuo.androidphonesearch.demo;
+package yutailuo.androiddeeplinksearch.demo;
 
 import android.app.Activity;
 import android.os.Bundle;

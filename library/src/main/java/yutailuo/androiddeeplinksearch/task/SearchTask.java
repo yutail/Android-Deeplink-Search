@@ -1,4 +1,4 @@
-package yutailuo.androidphonesearch.task;
+package yutailuo.androiddeeplinksearch.task;
 
 public abstract class SearchTask implements Runnable {
 

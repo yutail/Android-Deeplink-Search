@@ -1,4 +1,4 @@
-package yutailuo.androidphonesearch.database;
+package yutailuo.androiddeeplinksearch.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
