@@ -29,7 +29,6 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
         return sHistoryDbHelper;
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
 
