@@ -1,9 +1,13 @@
 package yutailuo.androiddeeplinksearch.core;
 
+import android.content.Context;
 import android.content.Intent;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
+
+import yutailuo.androiddeeplinksearch.task.ISearchTask;
 
 public class SearchConfiguration {
 
@@ -35,13 +39,16 @@ public class SearchConfiguration {
         public static final int DEFAULT_THREAD_POOL_SIZE = 3;
         public static final int DEFAULT_THREAD_PRIORITY = Thread.NORM_PRIORITY - 2;
 
+        private Context mContext;
+
         private Map<String, Intent> mDeeplinkMap = null;
 
         private Executor mTaskExecutor = null;
         private int mThreadPoolSize = DEFAULT_THREAD_POOL_SIZE;
         private int mThreadPriority = DEFAULT_THREAD_PRIORITY;
 
-        public Builder() {
+        public Builder(Context context) {
+            mContext = context.getApplicationContext();
         }
 
         public Builder setDeeplinkMap(Map<String, Intent> deeplinkMap) {
