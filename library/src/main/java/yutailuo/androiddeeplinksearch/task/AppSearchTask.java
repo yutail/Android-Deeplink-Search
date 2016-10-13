@@ -16,8 +16,10 @@ public class AppSearchTask implements ISearchTask {
 
     private static final String TAG = "AppSearchTask";
 
-    public AppSearchTask(Context context) {
+    private String mQuery;
 
+    public AppSearchTask(Context context, String query) {
+        mQuery = query;
     }
 
     @Override

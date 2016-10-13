@@ -1,5 +1,6 @@
 package yutailuo.androiddeeplinksearch.core;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.concurrent.Executor;
@@ -17,22 +18,24 @@ public class SearchManager {
 
     private volatile static SearchManager sInstance;
 
+    private Context mContext;
     private SearchConfiguration mConfiguration;
     private Executor mTaskExecutor;
 
-    /** Return singleton class instance. */
-    public static SearchManager getInstance() {
+    // Return singleton class instance.
+    public static SearchManager getInstance(Context context) {
         if (sInstance == null) {
             synchronized (SearchManager.class) {
                 if (sInstance == null) {
-                    sInstance = new SearchManager();
+                    sInstance = new SearchManager(context);
                 }
             }
         }
         return sInstance;
     }
 
-    private SearchManager() {
+    private SearchManager(Context context) {
+        mContext = context.getApplicationContext();
     }
 
     public synchronized void init(SearchConfiguration configuration) {
