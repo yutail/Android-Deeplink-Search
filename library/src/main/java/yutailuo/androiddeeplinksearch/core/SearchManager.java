@@ -3,12 +3,15 @@ package yutailuo.androiddeeplinksearch.core;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 
-import yutailuo.androiddeeplinksearch.listener.SearchProgressListener;
-import yutailuo.androiddeeplinksearch.listener.SimpleSearchProgressListener;
+import yutailuo.androiddeeplinksearch.task.AppSearchTask;
+import yutailuo.androiddeeplinksearch.task.DeeplinkSearchTask;
+import yutailuo.androiddeeplinksearch.task.ISearchTask;
 
-public class SearchManager {
+public class SearchManager implements SearchProgressListener {
 
     public static final String TAG = SearchManager.class.getSimpleName();
 
@@ -55,21 +58,47 @@ public class SearchManager {
     }
 
     public void loadQuery(String query) {
-        loadQuery(query, null);
-    }
-
-    public void loadQuery(String query, SearchProgressListener listener) {
         checkConfiguration();
-        if (listener == null) {
-            listener = new SimpleSearchProgressListener();
+        // Execute tasks in search task list.
+        for (ISearchTask searchTask : createSearchTasks(query)) {
+            mTaskExecutor.execute(searchTask);
         }
-        listener.onSearchStarted(query);
-
     }
 
     private void checkConfiguration() {
         if (mConfiguration == null) {
             throw new IllegalStateException(NOT_INIT_CONFIG);
         }
+    }
+
+    private List<ISearchTask> createSearchTasks(String query) {
+        List<ISearchTask> searchTasks = new ArrayList<>();
+        AppSearchTask appSearchTask = new AppSearchTask(mContext, query, this);
+        searchTasks.add(appSearchTask);
+        DeeplinkSearchTask deeplinkSearchTask = new DeeplinkSearchTask(mContext, query,
+                mConfiguration.getDeeplinkMap(), this);
+        searchTasks.add(deeplinkSearchTask);
+        return searchTasks;
+    }
+
+    @Override
+    public void onSearchStarted(ISearchTask.SearchType searchType, String query) {
+
+    }
+
+    @Override
+    public void onSearchFailed(ISearchTask.SearchType searchType, String query) {
+
+    }
+
+    @Override
+    public void onSearchComplete(ISearchTask.SearchType searchType, String query,
+                                 List<SearchResultData> searchResults) {
+
+    }
+
+    @Override
+    public void onSearchCancelled(ISearchTask.SearchType searchType, String query) {
+
     }
 }

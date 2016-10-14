@@ -44,6 +44,10 @@ public class AppSearchUtils {
         return appCache;
     }
 
+    public static void resetAppCache() {
+        sAppCache = null;
+    }
+
     private static List<ResolveInfo> findLauncherActivities(PackageManager pm) {
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);

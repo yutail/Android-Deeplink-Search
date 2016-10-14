@@ -5,5 +5,9 @@ package yutailuo.androiddeeplinksearch.task;
  */
 
 public interface ISearchTask extends Runnable {
-    void submitQuery(String query);
+    enum SearchType {
+        APP, DEEPLINK
+    }
+    void submitQuery();
+    SearchType getSearchType();
 }

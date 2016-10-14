@@ -15,7 +15,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
 
     private HistoryDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-        mContext = context;
+        mContext = context.getApplicationContext();
     }
 
     public static HistoryDbHelper getInstance(Context context) {
