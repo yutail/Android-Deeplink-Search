@@ -83,22 +83,23 @@ public class SearchManager implements SearchProgressListener {
 
     @Override
     public void onSearchStarted(ISearchTask.SearchType searchType, String query) {
-
+        Log.d(TAG, searchType.toString() + " search started for query: " + query);
     }
 
     @Override
     public void onSearchFailed(ISearchTask.SearchType searchType, String query) {
-
+        Log.d(TAG, searchType.toString() + " search failed for query: " + query);
     }
 
     @Override
     public void onSearchComplete(ISearchTask.SearchType searchType, String query,
                                  List<SearchResultData> searchResults) {
+        Log.d(TAG, searchType.toString() + " search completed for query: " + query);
 
     }
 
     @Override
     public void onSearchCancelled(ISearchTask.SearchType searchType, String query) {
-
+        Log.d(TAG, searchType.toString() + " search cancelled for query: " + query);
     }
 }

@@ -3,6 +3,7 @@ package yutailuo.androiddeeplinksearch.task;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -55,18 +56,20 @@ public class AppSearchTask implements ISearchTask {
                 Map.Entry<ComponentName, String> appEntry = it.next();
                 ComponentName appCN = appEntry.getKey();
                 String appName = appEntry.getValue();
+                Drawable appIcon = null;
 
                 if (wordPrefixMatch.matcher(appName).find()) {
                     try {
                         pm.getActivityInfo(appCN, 0);
+                        pm.getActivityIcon(appCN);
                     } catch (PackageManager.NameNotFoundException e) {
                         continue;
                     }
+                    searchResults.add(new SearchResultData(appName, appCN.flattenToShortString(),
+                            appIcon));
                 }
-                searchResults.add(new SearchResultData(appName, appCN.flattenToShortString(), null));
             }
         }
-
         if (mListener != null) {
             mListener.onSearchComplete(getSearchType(), mQuery, searchResults);
         }

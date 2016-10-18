@@ -3,9 +3,11 @@ package yutailuo.androiddeeplinksearch.task;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import yutailuo.androiddeeplinksearch.core.SearchProgressListener;
+import yutailuo.androiddeeplinksearch.core.SearchResultData;
 
 public class DeeplinkSearchTask implements ISearchTask {
 
@@ -31,7 +33,10 @@ public class DeeplinkSearchTask implements ISearchTask {
 
     @Override
     public void submitQuery() {
-
+        if (mListener != null) {
+            mListener.onSearchComplete(getSearchType(), mQuery, new ArrayList<SearchResultData>());
+            return;
+        }
     }
 
     @Override
@@ -41,6 +46,9 @@ public class DeeplinkSearchTask implements ISearchTask {
 
     @Override
     public void run() {
+        if (mListener != null) {
+            mListener.onSearchStarted(getSearchType(), mQuery);
+        }
         submitQuery();
     }
 }
