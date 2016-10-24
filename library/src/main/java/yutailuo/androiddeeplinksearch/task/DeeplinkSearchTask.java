@@ -8,6 +8,7 @@ import java.util.Map;
 
 import yutailuo.androiddeeplinksearch.core.SearchProgressListener;
 import yutailuo.androiddeeplinksearch.core.SearchResultData;
+import yutailuo.androiddeeplinksearch.core.VerticalSearchResult;
 
 public class DeeplinkSearchTask implements ISearchTask {
 
@@ -34,7 +35,9 @@ public class DeeplinkSearchTask implements ISearchTask {
     @Override
     public void submitQuery() {
         if (mListener != null) {
-            mListener.onSearchComplete(getSearchType(), mQuery, new ArrayList<SearchResultData>());
+            VerticalSearchResult deeplinkSearchResult = new VerticalSearchResult(getSearchType(),
+                    new ArrayList<SearchResultData>());
+            mListener.onSearchComplete(getSearchType(), mQuery, deeplinkSearchResult);
             return;
         }
     }

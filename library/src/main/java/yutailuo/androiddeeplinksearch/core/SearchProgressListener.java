@@ -1,7 +1,5 @@
 package yutailuo.androiddeeplinksearch.core;
 
-import java.util.List;
-
 import yutailuo.androiddeeplinksearch.task.ISearchTask;
 
 /**
@@ -15,7 +13,7 @@ public interface SearchProgressListener {
     void onSearchFailed(ISearchTask.SearchType searchType, String query);
 
     void onSearchComplete(ISearchTask.SearchType searchType, String query,
-                          List<SearchResultData> searchResults);
+                          VerticalSearchResult verticalSearchResult);
 
     void onSearchCancelled(ISearchTask.SearchType searchType, String query);
 }

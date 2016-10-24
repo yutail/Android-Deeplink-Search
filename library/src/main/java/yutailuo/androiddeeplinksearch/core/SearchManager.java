@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+import yutailuo.androiddeeplinksearch.display.ISearchResultDisplayer;
+import yutailuo.androiddeeplinksearch.display.SearchResultAdapter;
 import yutailuo.androiddeeplinksearch.task.AppSearchTask;
 import yutailuo.androiddeeplinksearch.task.DeeplinkSearchTask;
 import yutailuo.androiddeeplinksearch.task.ISearchTask;
@@ -18,12 +20,15 @@ public class SearchManager implements SearchProgressListener {
     private static final String RE_INIT_CONFIG = "Search configuration has already been initialized.";
     private static final String INIT_CONFIG_NULL = "Search configuration can not be initialized with null.";
     private static final String NOT_INIT_CONFIG = "Search configuration is not initialized.";
+    private static final String NOT_INIT_DISPLAYER = "Search result displayer is not initialized.";
 
     private volatile static SearchManager sInstance;
 
     private Context mContext;
     private SearchConfiguration mConfiguration;
     private Executor mTaskExecutor;
+
+    private ISearchResultDisplayer mSearchResultDisplayer;
 
     // Return singleton class instance.
     public static SearchManager getInstance(Context context) {
@@ -48,6 +53,7 @@ public class SearchManager implements SearchProgressListener {
         if (mConfiguration == null) {
             mConfiguration = configuration;
             mTaskExecutor = configuration.getTaskExecutor();
+            mSearchResultDisplayer = new SearchResultAdapter();
         } else {
             Log.w(TAG, RE_INIT_CONFIG);
         }
@@ -55,6 +61,10 @@ public class SearchManager implements SearchProgressListener {
 
     public boolean isInited() {
         return mConfiguration != null;
+    }
+
+    public void setSearchResultDisplayer(ISearchResultDisplayer searchResultDisplayer) {
+        mSearchResultDisplayer = searchResultDisplayer;
     }
 
     public void loadQuery(String query) {
@@ -93,9 +103,13 @@ public class SearchManager implements SearchProgressListener {
 
     @Override
     public void onSearchComplete(ISearchTask.SearchType searchType, String query,
-                                 List<SearchResultData> searchResults) {
+                                 VerticalSearchResult verticalSearchResult) {
         Log.d(TAG, searchType.toString() + " search completed for query: " + query);
 
+        if (mSearchResultDisplayer == null) {
+            throw new IllegalStateException(NOT_INIT_DISPLAYER);
+        }
+        mSearchResultDisplayer.display(verticalSearchResult, query);
     }
 
     @Override

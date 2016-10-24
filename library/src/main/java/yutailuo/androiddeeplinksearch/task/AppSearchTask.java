@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 import yutailuo.androiddeeplinksearch.core.SearchProgressListener;
 import yutailuo.androiddeeplinksearch.core.SearchResultData;
+import yutailuo.androiddeeplinksearch.core.VerticalSearchResult;
 import yutailuo.androiddeeplinksearch.util.AppSearchUtils;
 
 public class AppSearchTask implements ISearchTask {
@@ -38,16 +39,20 @@ public class AppSearchTask implements ISearchTask {
     @Override
     public void submitQuery() {
         String trimmedQuery = mQuery.trim();
+        SearchType searchType = getSearchType();
         if (TextUtils.isEmpty(trimmedQuery)) {
             if (mListener != null) {
-                mListener.onSearchComplete(getSearchType(), mQuery, new ArrayList<SearchResultData>());
+                VerticalSearchResult appSearchResult = new VerticalSearchResult(searchType,
+                        new ArrayList<SearchResultData>());
+                mListener.onSearchComplete(searchType, mQuery, appSearchResult);
                 return;
             }
         }
 
         PackageManager pm = mContext.getPackageManager();
         List<SearchResultData> searchResults = new ArrayList<>();
-        Pattern wordPrefixMatch = Pattern.compile("\\b" + Pattern.quote(trimmedQuery), Pattern.CASE_INSENSITIVE);
+        Pattern wordPrefixMatch = Pattern.compile("\\b" + Pattern.quote(trimmedQuery),
+                Pattern.CASE_INSENSITIVE);
 
         Map<ComponentName, String> appMap = AppSearchUtils.getAppCache(mContext);
         if (appMap != null) {
@@ -71,7 +76,8 @@ public class AppSearchTask implements ISearchTask {
             }
         }
         if (mListener != null) {
-            mListener.onSearchComplete(getSearchType(), mQuery, searchResults);
+            VerticalSearchResult appSearchResult = new VerticalSearchResult(searchType, searchResults);
+            mListener.onSearchComplete(searchType, mQuery, appSearchResult);
         }
     }
 

@@ -5,9 +5,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import java.util.List;
-
 import yutailuo.androiddeeplinksearch.core.SearchResultData;
+import yutailuo.androiddeeplinksearch.core.VerticalSearchResult;
 import yutailuo.library.R;
 
 /**
@@ -18,7 +17,7 @@ public class SearchContainerView extends LinearLayout {
 
     private Context mContext;
 
-    private List<SearchResultData> mSearchResults;
+    private VerticalSearchResult mVerticalSearchResult;
 
     public SearchContainerView(Context context) {
         super(context);
@@ -32,16 +31,16 @@ public class SearchContainerView extends LinearLayout {
 
     private void createView() {
         LayoutInflater.from(mContext).inflate(R.layout.search_container_view, this);
-        for (SearchResultData searchResult : mSearchResults) {
+        for (SearchResultData searchResult : mVerticalSearchResult.getSearchResults()) {
             SearchItemView searchItemView = new SearchItemView(mContext);
             searchItemView.setSearchResult(searchResult);
             addView(searchItemView);
         }
     }
 
-    public void setSearchResults(List<SearchResultData> searchResults) {
-        if (searchResults != null) {
-            mSearchResults = searchResults;
+    public void setVerticalSearchResult(VerticalSearchResult verticalSearchResult) {
+        if (verticalSearchResult != null) {
+            mVerticalSearchResult = verticalSearchResult;
             createView();
         }
     }
