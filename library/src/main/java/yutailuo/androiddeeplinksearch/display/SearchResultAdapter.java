@@ -21,7 +21,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     private List<VerticalSearchResult> mSearchResultList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
         public SearchContainerView searchContainerView;
         public ViewHolder(SearchContainerView itemView) {
             super(itemView);
@@ -37,7 +36,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     public SearchResultAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_container_view,
                 parent, false);
-
         ViewHolder viewHolder = new ViewHolder((SearchContainerView) v);
         return viewHolder;
     }
